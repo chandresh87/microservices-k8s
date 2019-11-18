@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  backend:
+    serviceName: hello-svc
+    servicePort: 80
+  rules:
+  - host: ms-world
+    http:
+        paths:
+          - path: /personservice/?(.*)
+            backend:
+              serviceName: personservice
+              servicePort: 8080
+          - path: /orgservice/?(.*)
+            backend:
+              serviceName: organizationservice
+              servicePort: 8085

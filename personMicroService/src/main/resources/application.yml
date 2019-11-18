@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    kubernetes:
+      ribbon:
+          mode: SERVICE
+
+logging:
+  level:
+    com.person.dto.client:
+            OrganizationFeignClient: TRACE          

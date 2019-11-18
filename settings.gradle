@@ -1,0 +1,6 @@
+rootProject.name = 'microservices-world-k8s'
+
+include 'organization-Microservice'
+include 'personMicroService'
+include 'auth-server'
+

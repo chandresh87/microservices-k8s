@@ -1,0 +1,10 @@
+server:
+  port: 8085
+  
+spring:
+  cloud:
+    kubernetes:
+      ribbon:
+        mode:SERVICE
+      discovery:
+        all-namespaces:  true

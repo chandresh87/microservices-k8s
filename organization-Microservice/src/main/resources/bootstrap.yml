@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: organizationservice
+  profiles:
+    active:
+    - default
+  cloud:
+    kubernetes:
+      config:
+        name: ${spring.application.name} #This is optional
+        sources:
+          - name: ${spring.application.name}-${PROFILE}
+      reload:
+        enabled: true    

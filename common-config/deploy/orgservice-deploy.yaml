@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: organizationservice
+  labels:
+    app: organizationservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: organizationservice
+  template:
+    metadata:
+      labels:
+        app: organizationservice
+    spec:
+      containers:
+      - name: organizationservice
+        image: microservice-k8s/organizationmicroservice-k8s:1.0
+        volumeMounts:
+            - name: secret-db
+              mountPath: /etc/secret-db
+            - name: secret-rabbitmq
+              mountPath: /etc/secret-rabbitmq
+        ports:
+        - containerPort: 8085
+        env:
+        - name: PROFILE
+          value: "default" 
+        - name: SERVER_PORT
+          value: "8085"
+        - name: ZIPKIN_URI
+          value: "http://192.168.1.3:9411"
+        - name: SECRET_PATH
+          value: "/etc/secret-db,/etc/secret-rabbitmq"  
+      volumes:
+        - name: secret-db
+          secret:
+            secretName: mysqldb
+          
+        - name: secret-rabbitmq
+          secret:
+            secretName: rabbitmq    

@@ -1,0 +1,12 @@
+server:
+   port: 8901
+   
+signing:
+   key: 345345fsdfsf5345
+
+
+spring:
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces:  true

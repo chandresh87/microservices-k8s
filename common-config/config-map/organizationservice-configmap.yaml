@@ -1,0 +1,71 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: organizationservice-default
+data:
+  application.yml: |-
+    spring: 
+        jpa:
+            database: mysql
+            hibernate:
+            ddl-auto: update
+            show-sql: true
+            format_sql: true
+            generate-ddl: true
+            properties:
+                hibernate:
+                    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+                    
+        datasource:
+            platform: mysql
+            testWhileIdle: true
+            validationQuery: SELECT 1
+            url: jdbc:mysql://192.168.1.3:3307/organizationmicroservice
+            username: ${database-user}
+            password: ${database-password}
+                
+        database:
+            driverClassName: com.mysql.jdbc.Driver
+        cloud:    
+            stream:
+                bindings:
+                    output:
+                        destination: inboundOrgChanges
+                        binder: local_rabbit
+                        content-type: application/json
+                        group: organizationService
+                binders:
+                    local_rabbit:
+                        type: rabbit
+                        environment:
+                            spring:
+                                rabbitmq:
+                                    host: 192.168.1.3
+                                    port:  5672
+                                    username: ${RABBITMQ_SERVICE_USERNAME}
+                                    password: ${RABBITMQ_SERVICE_PASSWORD}
+                                    virtual-host: /
+        zipkin:
+            enabled: true
+            service:
+                name: organizationService
+            sender:
+                type: web
+            base-url: http://192.168.1.3:9411
+        sleuth:
+            enabled: true
+            sampler:
+                probability: 1.0
+    management:
+            endpoint:
+                chaosmonkey:
+                    enabled: true
+                restart:
+                    enabled: true            
+                web:
+                   exposure:
+                    include: health,info,chaosmonkey,hystrix.stream 					
+    tracer:
+        property: "I AM THE Dev"
+    success:
+        message: Data saved succesfully in db.

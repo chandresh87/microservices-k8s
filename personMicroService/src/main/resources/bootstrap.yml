@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: personservice
+  profiles:
+    active: dev
+  cloud:
+    kubernetes:
+      ribbon:
+          mode: SERVICE
+      config:
+        name: ${spring.application.name} #This is optional
+        sources:
+          - name: ${spring.application.name}-${PROFILE} # Here you get your `personservice-dev` configmap
+      reload:
+        enabled: true      

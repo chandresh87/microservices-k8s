@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personservice
+  labels:
+    app: personservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: personservice
+  template:
+    metadata:
+      labels:
+        app: personservice
+    spec:
+      containers:
+      - name: personservice
+        image: microservice-k8s/personmicroservice-k8s:1.0
+        volumeMounts:
+            - name: secret-db
+              mountPath: /etc/secret-db
+            - name: secret-rabbitmq
+              mountPath: /etc/secret-rabbitmq
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PROFILE
+          value: "dev" 
+        - name: SERVER_PORT
+          value: "8080"
+        - name: ZIPKIN_URI
+          value: "http://100.120.41.92:9411"
+        - name: SECRET_PATH
+          value: "/etc/secret-db,/etc/secret-rabbitmq"  
+      volumes:
+        - name: secret-db
+          secret:
+            secretName: mysqldb
+          
+        - name: secret-rabbitmq
+          secret:
+            secretName: rabbitmq    
