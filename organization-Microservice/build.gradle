@@ -96,7 +96,7 @@ docker {
 task buildDocker(type: Docker, dependsOn: build) {
   //push = true
   applicationName = 'organizationmicroservice-k8s'
-  tagVersion = '1.1'
+  tagVersion = '1.0'
   dockerfile = file("${buildDir}/docker/Dockerfile")
   doFirst {
     copy {

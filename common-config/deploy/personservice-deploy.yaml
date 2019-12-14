@@ -13,6 +13,10 @@ spec:
     metadata:
       labels:
         app: personservice
+      annotations:
+        prometheus.io/path: '/actuator/prometheus'
+        prometheus.io/port: '8080'
+        prometheus.io/scrape: 'true'
     spec:
       containers:
       - name: personservice
@@ -30,7 +34,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         - name: ZIPKIN_URI
-          value: "http://100.120.41.92:9411"
+          value: "http://100.120.53.220:9411"
         - name: SECRET_PATH
           value: "/etc/secret-db,/etc/secret-rabbitmq"  
       volumes:

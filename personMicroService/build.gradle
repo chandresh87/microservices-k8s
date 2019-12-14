@@ -107,6 +107,11 @@ dependencies {
 	
 	//Kubernetes
 	compile "org.springframework.cloud:spring-cloud-starter-kubernetes-all"
+	
+	//Prometheus, allows to publish metrics in Prometheus format ,,,
+	compile "io.prometheus:simpleclient:0.8.0"
+	// Spring Boot Metrics collector and management
+	compile "io.micrometer:micrometer-registry-prometheus:1.3.1"
 
 }
 
